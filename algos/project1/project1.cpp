@@ -45,8 +45,27 @@ void selectionSort(vector<double> &arrayToSort)
 
 /*
  * insertionSort
+ * Sorts the input vector in ascending order using the insertion sort
+ * Select the first element; since there's no element on the left, no change
+ * Select the second element; compare it with the first one, if smaller, swap them; otherwise, no change
+ * Select the third element; compare it with the first two elements. Swap if smaller than either of them. Otherwise, no change.
+ * Repeat this process for all the remaining elements until all elements are sorted.
+ * During each iteration, we set a "key" element, and shift elements to the right until the correct position for the key is found.
  */
-void insertionSort(vector<double> &arrayToSort) { return; }
+void insertionSort(vector<double> &arrayToSort) {
+    for (int j = 1; j < arrayToSort.size(); j++)
+    {
+        double key = arrayToSort[j];
+        int i = j - 1;
+
+        while (i >= 0 && arrayToSort[i] > key)
+        {
+            arrayToSort[i + 1] = arrayToSort[i];
+            i = i - 1;
+        }
+        arrayToSort[i + 1] = key;
+    }
+}
 
 /*
  * bubbleSort
@@ -57,7 +76,7 @@ void bubbleSort(vector<double> &arrayToSort) { return; }
  * mergeSort helper
  */
 vector<double> mergeSortH(vector<double> &arrayToSort, int start, int end) {
-    
+
     // base case
     if (end - start == 0) return {};
     if (end - start <= 1) return {arrayToSort[start]};
