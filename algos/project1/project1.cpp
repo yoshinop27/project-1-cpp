@@ -14,8 +14,34 @@ using namespace std;
 
 /*
  * selectionSort
+ *
+ * Sorts the input vector in ascending order using the selection sort algorithm.
+ * Select all n elements and search for the smallest element.
+ * Swap the smallest element with the first element.
+ * Then, select the remaining n-1 elements and search for the smallest element.
+ * Swap the smallest element with the second element.
+ * Repeat this process until all elements are sorted.
  */
-void selectionSort(vector<double> &arrayToSort) { return; }
+void selectionSort(vector<double> &arrayToSort)
+{
+    double min;
+    int minIndex;
+    for (int i = 0; i < arrayToSort.size(); i++)
+    {
+        min = arrayToSort[i];
+        minIndex = i;
+        for (int j = i + 1; j < arrayToSort.size(); j++)
+        {
+            if (arrayToSort[j] < min)
+            {
+                min = arrayToSort[j];
+                minIndex = j;
+            }
+        }
+        swap(arrayToSort[i], arrayToSort[minIndex]);
+    }
+    return;
+}
 
 /*
  * insertionSort
@@ -28,9 +54,46 @@ void insertionSort(vector<double> &arrayToSort) { return; }
 void bubbleSort(vector<double> &arrayToSort) { return; }
 
 /*
+ * mergeSort helper
+ */
+vector<double> mergeSortH(vector<double> &arrayToSort, int start, int end) {
+    
+    // base case
+    if (end - start == 0) return {};
+    if (end - start <= 1) return {arrayToSort[start]};
+
+    // recursive call
+    int mid = (start + end) / 2;
+    vector<double> front = mergeSortH(arrayToSort, start, mid);
+    vector<double> back = mergeSortH(arrayToSort, mid, end);
+
+    // merge
+    vector<double> ret;
+    int f = 0;
+    int b = 0;
+    while (ret.size() < front.size() + back.size()) {
+        // Check if front is done
+        if (f >= front.size()) {
+            ret.push_back(back[b++]);
+        // Check if back is done
+        } else if (b >= back.size()) { 
+            ret.push_back(front[f++]);
+        }
+        // regular case
+        else if (front[f] < back[b]) { 
+            ret.push_back(front[f++]);
+        } else {
+            ret.push_back(back[b++]);
+        }
+    }
+    return ret;
+}
+/*
  * mergeSort
  */
-void mergeSort(vector<double> &arrayToSort) { return; }
+void mergeSort(vector<double> &arrayToSort) { 
+    arrayToSort = mergeSortH(arrayToSort, 0, arrayToSort.size());
+}
 
 /*
  * quickSortHelper
