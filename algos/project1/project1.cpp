@@ -27,10 +27,12 @@ void selectionSort(vector<double> &arrayToSort)
 {
     double min;
     int minIndex;
+    // iterate for each element in the vector
     for (int i = 0; i < arrayToSort.size(); i++)
     {
         min = arrayToSort[i];
         minIndex = i;
+        // Find minimum elemement
         for (int j = i + 1; j < arrayToSort.size(); j++)
         {
             if (arrayToSort[j] < min)
@@ -39,6 +41,7 @@ void selectionSort(vector<double> &arrayToSort)
                 minIndex = j;
             }
         }
+        // move minIndex into its correct position
         swap(arrayToSort[i], arrayToSort[minIndex]);
     }
     return;
@@ -47,25 +50,28 @@ void selectionSort(vector<double> &arrayToSort)
 /*
  * insertionSort
  * Sorts the input vector in ascending order using the insertion sort
- * Select the first element; since there's no element on the left, no change
- * Select the second element; compare it with the first one, if smaller, swap them; otherwise, no change
- * Select the third element; compare it with the first two elements. Swap if smaller than either of them. Otherwise, no change.
- * Repeat this process for all the remaining elements until all elements are sorted.
- * During each iteration, we set a "key" element, and shift elements to the right until the correct position for the key is found.
- * we take the array to sort as input and return void
+ * Partition the vector (theoretically) into a sorted and unsorted portion
+ * take the first element of the unsorted portion and insert it into its proper spot in the sorted portion by bubbling down 
+ * bubbling down is comparing our element of interst, say at position i initalliy, to the element at position...
+ * i-1, if its less than that element we swap
+ * bubbling down stops when the element is greater than the element in front of it 
+ * Repeat this process for all the remaining elements in the unsorted portion until all elements are in sorted portion.
  */
 void insertionSort(vector<double> &arrayToSort) {
-    for (int j = 1; j < arrayToSort.size(); j++)
-    {
-        double key = arrayToSort[j];
-        int i = j - 1;
-
-        while (i >= 0 && arrayToSort[i] > key)
-        {
-            arrayToSort[i + 1] = arrayToSort[i];
-            i = i - 1;
+    // loop for each element in array
+    for (int i = 0; i < arrayToSort.size(); i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < arrayToSort.size(); j++) {
+            // set minimum index
+            if (arrayToSort[j] < arrayToSort[minIndex]) {
+                minIndex = j;
+            }
         }
-        arrayToSort[i + 1] = key;
+        // bubble down
+        while (minIndex > i) {
+            swap(arrayToSort[minIndex], arrayToSort[minIndex - 1]);
+            minIndex--;
+        }
     }
 }
 
@@ -79,16 +85,22 @@ void insertionSort(vector<double> &arrayToSort) {
  * return void
  */
 void bubbleSort(vector<double> &arrayToSort) { 
+    // iterate for each element in our vector
     for (int i=0; i<arrayToSort.size(); i++) {
+        // flag for early termination
         int swaps = true;
+        // bubble up ith largest element
         for (int j = 0; j < arrayToSort.size()-1; j++) {
+            // single bubble 
             if (arrayToSort[j] > arrayToSort[j+1]) {
+                // set early termination flag to false
                 swaps = false;
                 double temp = arrayToSort[j];
                 arrayToSort[j] = arrayToSort[j+1];
                 arrayToSort[j+1] = temp;
             }
         }
+        // early termination
         if (swaps) return;
     }
  }
